@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
+
+@import 'tailwindcss';
+
+:root {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Outfit', system-ui, sans-serif;
+
+  --color-bcp-bg: #0B1437;
+  --color-bcp-surface: #111C44;
+  --color-bcp-surfaceHighlight: #1B254B;
+  --color-bcp-border: #2A3665;
+  --color-bcp-text: #FFFFFF;
+  --color-bcp-muted: #A3AED0;
+  --color-bcp-primary: #4318FF;
+  --color-bcp-accent: #7551FF;
+  --color-bcp-success: #05CD99;
+  --color-bcp-warning: #FFCE20;
+  --color-bcp-danger: #EE5D50;
+
+  --shadow-premium: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  --shadow-premium-dark: 0px 18px 40px rgba(0, 0, 0, 0.25);
+  --shadow-neon: 0 0 20px rgba(67, 24, 255, 0.4);
+  --shadow-neon-warning: 0 0 10px rgba(255, 171, 0, 0.5), 0 0 20px rgba(255, 171, 0, 0.3);
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: var(--color-bcp-bg) !important;
+  }
+
+  /* Hide the sidebar and topbar when printing */
+  nav,
+  header,
+  button,
+  aside,
+  .sidebar {
+    display: none !important;
+  }
+
+  /* Ensure the content expands and background graphics show */
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .premium-card {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: none !important;
+    /* Remove shadows for print */
+    break-inside: avoid;
+  }
+
+  @page {
+    size: landscape;
+    margin: 1cm;
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bcp-bg);
+    color: var(--color-bcp-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+@layer components {
+  .premium-card {
+    background-color: var(--color-bcp-surface);
+    border: 1px solid var(--color-bcp-border);
+    box-shadow: var(--shadow-premium-dark);
+    border-radius: 20px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  .premium-card:hover {
+    border-color: rgba(67, 24, 255, 0.3);
+    box-shadow: 0 10px 40px rgba(67, 24, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.875rem;
+    padding-bottom: 0.875rem;
+    border-radius: 12px;
+    color: var(--color-bcp-muted);
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-item:hover {
+    color: white;
+  }
+
+  .nav-item.active {
+    color: white;
+    background-color: var(--color-bcp-primary);
+    box-shadow: 0 8px 20px rgba(67, 24, 255, 0.3);
+  }
+
+  /* Custom Glow Text */
+  .text-glow {
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+}
+
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
