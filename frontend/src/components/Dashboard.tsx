@@ -1,7 +1,7 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ArrowDownRight, Activity, DollarSign, Hotel, Target, Zap, ChevronDown, DownloadCloud } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, Activity, DollarSign, Hotel, Zap, ChevronDown, DownloadCloud } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 const CustomTooltip = ({ active, payload, label }: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => {
@@ -42,11 +42,11 @@ export const Dashboard = ({ data, onPropertySelect, onGenerateReport, onInitAI }
             shadowColor: 'rgba(67, 24, 255, 0.4)'
         },
         {
-            label: 'System Occupancy',
-            value: `${data.kpi.avg_occupancy}%`,
-            trend: '+3.2%',
+            label: 'Portfolio RevPAR',
+            value: `$${((data.kpi.avg_occupancy / 100) * data.kpi.avg_adr).toFixed(2)}`,
+            trend: '+4.8%',
             isPositive: true,
-            icon: Hotel,
+            icon: Zap,
             color: 'text-[var(--color-bcp-accent)]',
             bgGlow: 'bg-[var(--color-bcp-accent)]',
             shadowColor: 'rgba(117, 81, 255, 0.4)'
@@ -62,11 +62,11 @@ export const Dashboard = ({ data, onPropertySelect, onGenerateReport, onInitAI }
             shadowColor: 'rgba(255, 206, 32, 0.4)'
         },
         {
-            label: 'Network Health',
-            value: `${data.kpi.avg_health}`,
-            trend: '+2.1 pts',
+            label: 'System Occupancy',
+            value: `${data.kpi.avg_occupancy}%`,
+            trend: '+3.2%',
             isPositive: true,
-            icon: Target,
+            icon: Hotel,
             color: 'text-[var(--color-bcp-success)]',
             bgGlow: 'bg-[var(--color-bcp-success)]',
             shadowColor: 'rgba(5, 205, 153, 0.4)'
@@ -124,8 +124,8 @@ export const Dashboard = ({ data, onPropertySelect, onGenerateReport, onInitAI }
                         </div>
                         <p className="text-[var(--color-bcp-muted)] text-[11px] font-mono tracking-wider font-bold">ID: BCP-NX-782</p>
                     </div>
-                    <h1 className="text-[44px] font-display font-bold text-white tracking-tight leading-tight">Property Intelligence</h1>
-                    <p className="text-[var(--color-bcp-muted)] font-medium mt-1">Algorithmic analysis of portfolio performance.</p>
+                    <h1 className="text-[44px] font-display font-bold text-white tracking-tight leading-tight">Executive BI Dashboard</h1>
+                    <p className="text-[var(--color-bcp-muted)] font-medium mt-1">Cross-functional analysis of portfolio yield and operational efficiency.</p>
                 </div>
                 <div className="flex gap-4">
                     <button onClick={handleExportData} className="h-12 px-6 rounded-[14px] bg-[var(--color-bcp-surface)] hover:bg-[var(--color-bcp-surfaceHighlight)] border border-[var(--color-bcp-border)] shadow-[var(--shadow-premium-dark)] text-white text-sm font-bold transition-colors flex items-center gap-2">
@@ -213,8 +213,8 @@ export const Dashboard = ({ data, onPropertySelect, onGenerateReport, onInitAI }
                     {/* Matrix Table */}
                     <motion.div variants={itemVariants} className="premium-card p-8">
                         <div className="flex items-center justify-between mb-8">
-                            <h3 className="text-[22px] font-display font-bold text-white">Property Matrix</h3>
-                            <div className="px-3 py-1 bg-[var(--color-bcp-surfaceHighlight)] rounded-lg text-xs font-bold text-[var(--color-bcp-primary)] uppercase tracking-wider">Top 5 Performers</div>
+                            <h3 className="text-[22px] font-display font-bold text-white">Operational Matrix</h3>
+                            <div className="px-3 py-1 bg-[var(--color-bcp-surfaceHighlight)] rounded-lg text-xs font-bold text-[var(--color-bcp-primary)] uppercase tracking-wider">Stakeholder View</div>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">

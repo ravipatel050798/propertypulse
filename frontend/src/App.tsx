@@ -21,7 +21,8 @@ function App() {
   const [autoInsights, setAutoInsights] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/portfolio')
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    fetch(`${apiUrl}/api/portfolio`)
       .then(res => res.json())
       .then(result => {
         setData(result);

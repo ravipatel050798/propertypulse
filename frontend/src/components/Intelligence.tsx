@@ -11,7 +11,7 @@ interface ChatMessage {
 export const Intelligence = ({ data }: { data: any /* eslint-disable-line @typescript-eslint/no-explicit-any */ }) => {
     const [query, setQuery] = useState('');
     const [messages, setMessages] = useState<ChatMessage[]>([
-        { role: 'assistant', content: 'PropertyPulse Neural Core is online. I have analyzed the current portfolio data for 16 properties. How can I assist you with revenue optimization or operational insights today?' }
+        { role: 'assistant', content: 'PropertyPulse Business Intelligence Core is online. I have analyzed the current portfolio data for 16 properties. I am ready to assist with **RevPAR optimization**, **data integrity audits**, or **strategic yield analysis**. How can I help you meet company objectives today?' }
     ]);
     const [isTyping, setIsTyping] = useState(false);
     const endOfMessagesRef = useRef<HTMLDivElement>(null);
@@ -51,7 +51,6 @@ export const Intelligence = ({ data }: { data: any /* eslint-disable-line @types
 
             // Helper calculations
             const avgOcc = props.reduce((acc: number, p: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => acc + p.occupancy, 0) / props.length;
-            const avgAdr = props.reduce((acc: number, p: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => acc + p.adr, 0) / props.length;
             const totalRev = props.reduce((acc: number, p: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => acc + p.revenue, 0);
 
             if (lowerQ.includes("lowest") || lowerQ.includes("worst")) {
@@ -83,12 +82,28 @@ export const Intelligence = ({ data }: { data: any /* eslint-disable-line @types
                 const lowest = sorted[sorted.length - 1];
                 sqlQuery = `SELECT name, occupancy \nFROM properties \nORDER BY occupancy DESC;`;
                 response = `Portfolio average occupancy is **${avgOcc.toFixed(1)}%**. \n\nHighest: **${highest.name}** (${highest.occupancy}%)\nLowest: **${lowest.name}** (${lowest.occupancy}%)\n\nWould you like me to model pricing scenarios to boost occupancy for **${lowest.name}**?`;
+            } else if (lowerQ.includes("integrity") || lowerQ.includes("audit") || lowerQ.includes("check")) {
+                const anomalies = props.filter((p: any) => p.occupancy > 100 || p.adr <= 0 || p.health_score < 0);
+                sqlQuery = `SELECT id, name, occupancy, adr, health_score \nFROM properties \nWHERE occupancy > 100 OR adr <= 0 OR health_score < 0;`;
+                if (anomalies.length > 0) {
+                    response = `**Data Integrity Alert:** I have detected ${anomalies.length} anomalies in the dataset. Properties like **${anomalies[0].name}** show irregular metrics (Occupancy: ${anomalies[0].occupancy}%). I recommend verifying the source data feed to ensure 100% accuracy.`;
+                } else {
+                    response = `I have completed a comprehensive **Portfolio Audit**. All ${props.length} data assets are complete, accurate, and reliable. Data integrity is confirmed at 100%.`;
+                }
+            } else if (lowerQ.includes("strategy") || lowerQ.includes("recommend") || lowerQ.includes("improve")) {
+                const lowRevPar = [...props].sort((a: any, b: any) => a.revpar - b.revpar)[0];
+                sqlQuery = `SELECT name, occupancy, adr, revpar \nFROM properties \nORDER BY revpar ASC \nLIMIT 1;`;
+                response = `**Yield Strategy Recommendation:** To enhance portfolio RevPAR, we should focus on **${lowRevPar.name}**. Currently, its RevPAR is $${lowRevPar.revpar}. \n\n**Proposed Action:** Increase ADR by 5% while maintaining current occupancy through targeted marketing in the Canmore region. This would project a ${((lowRevPar.revpar * 1.05) - lowRevPar.revpar).toFixed(2)}% increase in unit revenue.`;
+            } else if (lowerQ.includes("revpar")) {
+                const avgRevPar = props.reduce((acc: number, p: any) => acc + p.revpar, 0) / props.length;
+                sqlQuery = `SELECT AVG(revpar) as portfolio_avg_revpar FROM properties;`;
+                response = `The current **Portfolio Average RevPAR** is **$${avgRevPar.toFixed(2)}**. This is a key metric for BCP as it balances both pricing (ADR) and volume (Occupancy). Would you like a breakdown by region?`;
             } else if (lowerQ.includes("health")) {
                 sqlQuery = `SELECT avg_health FROM kpi LIMIT 1;`;
                 response = `The portfolio average health is currently **${data.kpi.avg_health}**. If you want a breakdown, ask me for the "lowest" or "worst" performing property.`;
             } else {
                 sqlQuery = `SELECT \n  COUNT(*) as property_count, \n  AVG(adr) as avg_adr \nFROM properties;`;
-                response = `I've processed your query regarding "${userMsg}". Analyzing across the ${props.length} Banff Caribou Properties... The portfolio is currently operating at an average yield equivalent to $${avgAdr.toFixed(0)} ADR. Please specify if you want metrics on revenue, occupancy, health scores, or a specific region (Banff vs Canmore).`;
+                response = `I've processed your query regarding "${userMsg}". Analyzing across the ${props.length} Banff Caribou Properties... The portfolio is currently operating at an average RevPAR of $${((data.kpi.avg_occupancy / 100) * data.kpi.avg_adr).toFixed(2)}. Please specify if you want metrics on revenue, occupancy, integrity audits, or strategic recommendations.`;
             }
 
             setMessages(prev => [...prev, { role: 'assistant', content: response, sqlQuery }]);
@@ -106,10 +121,10 @@ export const Intelligence = ({ data }: { data: any /* eslint-disable-line @types
                         <div className="absolute inset-0 bg-[var(--color-bcp-primary)] opacity-20 blur-md rounded-xl"></div>
                     </div>
                     <div>
-                        <h2 className="text-[22px] font-display font-bold text-white">AI Neural Intelligence</h2>
+                        <h2 className="text-[22px] font-display font-bold text-white">Hospitality Intelligence Hub</h2>
                         <div className="flex items-center gap-2 mt-1">
                             <span className="w-2 h-2 rounded-full bg-[var(--color-bcp-success)] shadow-[0_0_8px_rgba(5,205,153,0.8)] animate-pulse"></span>
-                            <p className="text-[11px] tracking-widest text-[var(--color-bcp-muted)] uppercase font-bold">System Online • Ready</p>
+                            <p className="text-[11px] tracking-widest text-[var(--color-bcp-muted)] uppercase font-bold">BI System Online • Data Validated</p>
                         </div>
                     </div>
                 </div>

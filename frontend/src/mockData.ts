@@ -1,10 +1,10 @@
 export const MOCK_DATA = {
     "kpi": {
         "avg_health": 74.2,
-        "revenue_total": 45000000,
+        "total_revenue": 45000000,
         "revenue_growth": 12.4,
-        "occupancy": 70.1,
-        "adr": 324
+        "avg_occupancy": 70.1,
+        "avg_adr": 324
     },
     "properties": [
         {
@@ -77,5 +77,21 @@ export const MOCK_DATA = {
         "q2": { "target": 15000000, "actual": 14200000 },
         "q3": { "target": 22000000, "actual": 18300000, "projected": 23000000 },
         "q4": { "target": 18000000, "actual": 0 }
-    }
+    },
+    "insights": [
+        {
+            "id": "alert-1",
+            "type": "operational",
+            "title": "Yield Strategy Note",
+            "message": "RevPAR is currently tracking 4.8% above the baseline across the Banff portfolio. ADR stability is contributing to high information quality.",
+            "recommendation": "Review Canmore regional metrics for secondary growth opportunities."
+        },
+        {
+            "id": "alert-2",
+            "type": "data_integrity",
+            "title": "Audit Complete",
+            "message": "The automated data integrity audit has cleared all active property assets. No missing RevPAR or occupancy identifiers detected.",
+            "recommendation": "Maintain weekly autonomous audits to ensure reporting reliability."
+        }
+    ]
 };
