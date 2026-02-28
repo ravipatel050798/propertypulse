@@ -2,7 +2,7 @@ services:
   # Backend: Flask Application
   - type: web
     name: property-pulse-backend
-    env: python
+    runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn --chdir backend app:app
     envVars:
@@ -10,12 +10,12 @@ services:
         value: 5000
 
   # Frontend: React Application (Vite)
-  - type: static_site
+  - type: web
     name: property-pulse-frontend
-    env: static
-    root: frontend
+    runtime: static
+    rootDir: frontend
     buildCommand: npm install && npm run build
-    publishPath: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         fromService:
