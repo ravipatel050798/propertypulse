@@ -10,7 +10,7 @@ services:
         value: 5000
 
   # Frontend: React Application (Vite)
-  - type: static
+  - type: static_site
     name: property-pulse-frontend
     env: static
     root: frontend
